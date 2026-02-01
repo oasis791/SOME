@@ -54,6 +54,6 @@ public class AccountConcurrencyTest {
         Account account = accountRepository.findById(accountId).orElseThrow();
         System.out.println("최종 잔액: " + account.getBalance());
 
-        // assertEquals(100000L, account.getBalance());
+        assertEquals(100000L, account.getBalance());
     }
 }

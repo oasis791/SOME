@@ -44,7 +44,7 @@ public class AccountService {
 
     @Transactional
     public void deposit(Long accountId, Long amount) {
-        Account account = accountRepository.findById(accountId)
+        Account account = accountRepository.findByIdWithPessimisticLock(accountId)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다."));
         account.deposit(amount);
     }
