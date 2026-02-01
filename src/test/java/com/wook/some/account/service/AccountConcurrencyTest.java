@@ -22,6 +22,9 @@ public class AccountConcurrencyTest {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private AccountOptimisticLockFacade facade;
+
     @Test
     @DisplayName("동시에 100명이 각각 1,000원씩 입금하면 잔액은 100,000원이어야 한다")
     void concurrency_deposit_test() throws InterruptedException {
@@ -39,7 +42,7 @@ public class AccountConcurrencyTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    accountService.deposit(accountId, 1000L);
+                    facade.deposit(accountId, 1000L);
                 } catch (Exception e) {
                     System.out.println("에러 발생: " + e.getMessage());
                 } finally {
@@ -54,6 +57,6 @@ public class AccountConcurrencyTest {
         Account account = accountRepository.findById(accountId).orElseThrow();
         System.out.println("최종 잔액: " + account.getBalance());
 
-        // assertEquals(100000L, account.getBalance());
+         assertEquals(100000L, account.getBalance());
     }
 }

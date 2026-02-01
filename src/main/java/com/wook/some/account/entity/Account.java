@@ -27,6 +27,9 @@ public class Account {
     @Column(length = 10, nullable = false)
     private AccountStatus accStat;
 
+    @Version
+    private Long version;
+
     public enum AccountStatus {
         ACTIVE,     // 정상
         SUSPENDED,  // 정지
